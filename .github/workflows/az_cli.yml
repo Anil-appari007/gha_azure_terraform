@@ -2,6 +2,8 @@ on: [push]
 jobs:
   demo:
     runs-on: ubuntu-latest
+    env:
+      resource_group: "mydemorg"
     steps:
     
     # - uses: actions/checkout@master
@@ -10,5 +12,13 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDS_SP }}
 
-    - name: resources_check
-      run: az group list 
+    - name: create a resource if not exists
+      run: |
+        az group list | grep ${{ env.resource_group }}
+        status="$(echo $?)"
+        if [[ status == 0 ]];
+        then
+            echo "resource already exists"
+        else 
+            az group create --name ${{ env.resource_group }} --location centralindia
+        fi
