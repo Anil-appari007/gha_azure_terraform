@@ -13,7 +13,7 @@ jobs:
       ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-      TF_FILE_PATH: az_resource_group/main.tf
+      TF_FILE_PATH: az_resource_group
 
     steps:
       - uses: actions/checkout@v2
