@@ -1,0 +1,14 @@
+on: [push]
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+    
+    # - uses: actions/checkout@master
+    
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDS_SP }}
+
+    - name: resources_check
+      run: az group list 
