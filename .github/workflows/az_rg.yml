@@ -13,6 +13,7 @@ jobs:
       ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      TF_FILE_PATH: az_resource_group/main.tf
 
     steps:
       - uses: actions/checkout@v2
@@ -22,21 +23,21 @@ jobs:
 
       - name: Terraform Format
         id: fmt
-        run: terraform fmt -check
+        run: terraform -chdir=${{ env.TF_FILE_PATH }} fmt -check -chdir=az_resource_group/main.tf
         continue-on-error: true
 
       - name: Terraform Init
         id: init
-        run: terraform init
+        run: terraform -chdir=${{ env.TF_FILE_PATH }} init
       
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color
+        run: terraform -chdir=${{ env.TF_FILE_PATH }} validate -no-color
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -input=false
+        run: terraform -chdir=${{ env.TF_FILE_PATH }} plan -no-color -input=false
         continue-on-error: true
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve -input=false
+        run: terraform -chdir=${{ env.TF_FILE_PATH }} apply -auto-approve -input=false
