@@ -15,6 +15,6 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name      = demo_gha_az_tf
-  location  = centralindia
+  name      = "demo_gha_az_tf"
+  location  = "centralindia"
 }
