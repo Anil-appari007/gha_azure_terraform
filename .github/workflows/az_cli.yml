@@ -12,20 +12,24 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDS_SP }}
 
-    - name: create a resource if not exists
+    # - name: create a resource if not exists
+    #   run: |
+    #     status=`az group list | grep ${{ env.resource_group }} | wc -l`
+        
+    #     if [ $status -eq 0 ]
+    #     then
+    #         az group create --name ${{ env.resource_group }} --location centralindia
+    #     else 
+    #         echo "resource already exists"
+    #     fi
+
+    - name: Delete a resource if exists
       run: |
         status=`az group list | grep ${{ env.resource_group }} | wc -l`
         
-        if [ $status -eq 0 ]
+        if [ $status -ne 0 ]
         then
-            az group create --name ${{ env.resource_group }} --location centralindia
+            az group delete --name ${{ env.resource_group }} 
         else 
-            echo "resource already exists"
+            echo "resource doesn't exists"
         fi
-
-
-# namespacePresent=`kubectl get namespace | grep anilsdemoaks8cdf | wc -l`
-#         if [ $namespacePresent -eq 0 ]
-#         then
-#             echo `kubectl create namespace anilsdemoaks8cdf`
-#         fi
